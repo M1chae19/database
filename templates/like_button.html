@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>Messages from {{ user.username }}</h2>
+  {% if current_user %}
+    {% if user.username != current_user.username %}
+      {% if current_user|is_f(user) %}
+        <form action="{{ url_for('user_unlike', username=user.username) }}" method="post">
+          <input type="submit" value="- Un-like" />
+        </form>
+      {% else %}
+        <form action="{{ url_for('user_like', username=user.username) }}" method="post">
+          <input type="submit" value="+ like" />
+        </form>
+      {% endif %}
+    {% endif %}
+  {% endif %}
+  <ul>
+    {% for message in message_list %}
+      <li>{% include "includes/message.html" %}</li>
+    {% endfor %}
+  </ul>
+  {% include "includes/pagination.html" %}
+{% endblock %}
